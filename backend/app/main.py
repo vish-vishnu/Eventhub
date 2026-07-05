@@ -2,8 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.routers import user, auth, event, booking
+from app import models
 # Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 
 app=FastAPI(
     title="Event Booking API",
