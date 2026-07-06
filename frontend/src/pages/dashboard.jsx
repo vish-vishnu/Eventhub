@@ -103,7 +103,7 @@ export default function Dashboard() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-1">
-                        Welcome, {currentUser?.name || 'User'}
+                        Welcome, {currentUser?.full_name || 'User'}
                     </h1>
                     <p className="text-gray-600">
                         Account Type: <span className="font-semibold uppercase text-indigo-600">{currentUser?.role}</span>
