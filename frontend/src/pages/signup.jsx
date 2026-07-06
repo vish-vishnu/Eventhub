@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '../api/client';
 
 export default function Signup() {
-  const [name, setName] = useState('');
+  const [full_name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('attendee'); // Default role
@@ -19,7 +19,7 @@ export default function Signup() {
 
     // Standard user registration uses regular JSON payloads (unlike login)
     const payload = {
-      name,
+      full_name,
       email,
       password,
       role
@@ -72,7 +72,7 @@ export default function Signup() {
             <input
               type="text"
               required
-              value={name}
+              value={full_name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
               placeholder="John Doe"
