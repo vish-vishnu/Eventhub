@@ -11,17 +11,14 @@ export default function Navbar() {
   };
 
   return (
-    /* Removed flex-col and md:flex-row, reduced padding slightly for mobile */
     <nav className="bg-gray-900 text-white shadow-md px-4 py-3 flex justify-between items-center w-full">
 
-      {/* Brand Logo */}
       <div className="text-2xl font-bold tracking-tight">
         <Link to="/" className="hover:text-gray-300 transition-colors">
           <img src="cheers.png" alt="" className='bg-red-500 w-10' />EventHub
         </Link>
       </div>
 
-      {/* Navigation Links */}
       <div className="flex items-center gap-6">
         <Link to="/" className="text-gray-300 hover:text-white font-medium transition-colors">
           Home
