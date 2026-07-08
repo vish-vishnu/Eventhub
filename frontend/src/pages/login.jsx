@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import { useState } from 'react';
 import apiClient from '../api/client';
 
@@ -11,20 +10,15 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
-    // FastAPI strictly requires Form Data (URLSearchParams) for OAuth2 logins
     const formData = new URLSearchParams();
     formData.append('username', email);
     formData.append('password', password);
 
     try {
-      // Notice we use apiClient here! It already knows our base URL is localhost:8000
       const response = await apiClient.post('/login', formData);
       
-      // Save the VIP wristband to the browser vault
       localStorage.setItem('token', response.data.access_token);
       
-      // Hard redirect to the dashboard. 
-      // This forces the Navbar to re-render and show the "Logout" button!
       window.location.href = '/dashboard';
       
     } catch (err) {
@@ -38,7 +32,6 @@ export default function Login() {
         
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Welcome Back</h2>
         
-        {/* Error Alert Box */}
         {error && (
           <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
             <p>{error}</p>

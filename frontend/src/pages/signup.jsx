@@ -7,7 +7,7 @@ export default function Signup() {
   const [full_name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('attendee'); // Default role
+  const [role, setRole] = useState('attendee');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
@@ -17,7 +17,6 @@ export default function Signup() {
     setError('');
     setSuccess(false);
 
-    // Standard user registration uses regular JSON payloads (unlike login)
     const payload = {
       full_name,
       email,
@@ -26,12 +25,10 @@ export default function Signup() {
     };
 
     try {
-      // Direct call to your FastAPI signup route
       await apiClient.post('/users/signup', payload);
       
       setSuccess(true);
       
-      // Flash the success message for 2 seconds, then teleport them to login
       setTimeout(() => {
         navigate('/login');
       }, 2000);
@@ -52,14 +49,12 @@ export default function Signup() {
         <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">Create Account</h2>
         <p className="text-gray-500 text-center mb-6">Join EventHub today</p>
         
-        {/* Success Alert Box */}
         {success && (
           <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded">
             <p>🎉 Account created! Redirecting to login...</p>
           </div>
         )}
 
-        {/* Error Alert Box */}
         {error && (
           <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
             <p>{error}</p>

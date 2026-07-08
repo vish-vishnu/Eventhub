@@ -1,4 +1,3 @@
-// src/pages/Dashboard.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../api/client';
@@ -7,7 +6,7 @@ export default function Dashboard() {
     const [currentUser, setCurrentUser] = useState(null);
     const [bookings, setBookings] = useState([]);
     const [events, setEvents] = useState([]);
-    const [myHostedEvents, setMyHostedEvents] = useState([]); // NEW: Hosted events state
+    const [myHostedEvents, setMyHostedEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [showEventForm, setShowEventForm] = useState(false);
@@ -17,7 +16,6 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                // Fetch User Profile, Bookings, and All Events simultaneously
                 const [userRes, bookingsRes, eventsRes] = await Promise.all([
                     apiClient.get('/users/me'),
                     apiClient.get('/bookings/me'),
@@ -31,7 +29,6 @@ export default function Dashboard() {
                 setBookings(bookingsRes.data);
                 setEvents(allEvents);
 
-                // NEW: If the user is an organizer, find their specific events
                 if (user.role === 'organizer') {
                     const hosted = allEvents.filter(e => e.organizer_id === user.id);
                     setMyHostedEvents(hosted);
@@ -48,7 +45,6 @@ export default function Dashboard() {
 
     const getEventDetails = (eventId) => events.find((e) => e.id === eventId);
 
-    // --- ACTIONS ---
     const handleCancelTicket = async (bookingId) => {
         if (!window.confirm("Are you sure you want to cancel this ticket?")) return;
         try {
@@ -59,12 +55,10 @@ export default function Dashboard() {
         }
     };
 
-    // NEW: Cancel an Event (Organizer Only)
     const handleDeleteEvent = async (eventId) => {
         if (!window.confirm("DANGER: Are you sure you want to cancel and delete this event entirely?")) return;
         try {
             await apiClient.delete(`/events/${eventId}`);
-            // Remove it from both lists in the UI instantly
             setMyHostedEvents(myHostedEvents.filter((e) => e.id !== eventId));
             setEvents(events.filter((e) => e.id !== eventId));
         } catch (error) {
@@ -83,7 +77,6 @@ export default function Dashboard() {
             setShowEventForm(false);
             setNewEvent({ title: '', description: '', date: '', capacity: '' });
 
-            // Update both UI lists instantly
             setEvents([...events, response.data]);
             setMyHostedEvents([...myHostedEvents, response.data]);
 
@@ -99,7 +92,6 @@ export default function Dashboard() {
     return (
         <div className="max-w-5xl mx-auto mt-8 px-4 pb-12">
 
-            {/* HEADER SECTION */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-1">
@@ -117,7 +109,6 @@ export default function Dashboard() {
                 )}
             </div>
 
-            {/* CREATE EVENT FORM */}
             {showEventForm && (
                 <div className="bg-white rounded-lg shadow-lg p-6 mb-8 border-t-4 border-green-500">
                     <h2 className="text-2xl font-bold text-gray-800 mb-4">Post a New Event</h2>
@@ -146,10 +137,8 @@ export default function Dashboard() {
                 </div>
             )}
 
-            {/* GRID LAYOUT FOR SECTIONS */}
             <div className={`grid grid-cols-1 ${currentUser?.role === 'organizer' ? 'lg:grid-cols-2 gap-8' : ''}`}>
 
-                {/* SECTION 1: MY TICKETS (Everyone sees this) */}
                 <div className="bg-white rounded-lg shadow p-6 h-fit">
                     <h2 className="text-xl font-bold text-gray-800 border-b pb-4 mb-4">🎫 My Tickets</h2>
 
@@ -177,7 +166,6 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                {/* SECTION 2: ORGANIZER'S EVENTS (Only Organizers see this) */}
                 {currentUser?.role === 'organizer' && (
                     <div className="bg-gray-50 rounded-lg shadow p-6 h-fit border border-gray-200">
                         <h2 className="text-xl font-bold text-gray-800 border-b border-gray-300 pb-4 mb-4">🎤 Events I'm Hosting</h2>
